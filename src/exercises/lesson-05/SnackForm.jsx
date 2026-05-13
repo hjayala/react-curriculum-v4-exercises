@@ -16,6 +16,7 @@ export default function SnackForm({
 
   useEffect(() => {
     if (editingSnack) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(editingSnack.name);
       setRating(String(editingSnack.rating));
     } else {
