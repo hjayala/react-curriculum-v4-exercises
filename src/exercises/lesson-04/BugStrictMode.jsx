@@ -1,15 +1,14 @@
-// TOPIC: StrictMode Effects and Cleanup
-// TASK: Notice how the count increments incorrectly based on the `setInterval` logic. Fix the useEffect so that the counter increments correctly.
-
 import { useEffect, useState } from 'react';
 
 export default function BugStrictMode() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       setCount((c) => c + 1);
     }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -20,4 +19,9 @@ export default function BugStrictMode() {
   );
 }
 
-// Write your explanation of how StrictMode helps us catch this bug
+// Explanation:
+// StrictMode mounts the component twice in development to catch side effects.
+// Without a cleanup function, two intervals were created and never cleared,
+// causing the count to increment by 2 every second. Returning clearInterval
+// from the effect ensures the first interval is destroyed before the second
+// one is created, so only one is ever running at a time.

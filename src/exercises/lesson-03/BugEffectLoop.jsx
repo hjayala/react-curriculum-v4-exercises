@@ -14,11 +14,15 @@ export default function BugEffectLoop() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCount(count + 1);
-  });
+  }, []);
 
   return <p>Bug 1 Count: {count}</p>;
 }
 
 // Explanation:
-// (Write your explanation here)
+// The useEffect was missing the depency array needed, which was added in line 18
+// as an empty array []
+// VS Code throws a warning regarding cascading renders, but it seems safe to ignore
+// for the purpose of this exercise.
